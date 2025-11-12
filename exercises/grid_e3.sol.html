@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .cat1 {
+        width: 200px;
+        height: 300px;
+        object-fit: cover
+    }
+
+    .catdiv1 {
+        border: 2px solid lightgray;
+        width: 200px;
+        height: 430px;
+        text-align: left;
+    }
+
+    .addfriend {
+        background-color: blue;
+        color: white;
+        border-radius: 5px;
+        position: relative;
+        left: 7px;
+        padding: 5px;
+    }
+
+    .name {
+        font-weight: bolder;
+        position: relative;
+        left: 7px;
+        margin-bottom: 10px;
+    }
+
+    .friends {
+        position: relative;
+        left: 1px;
+        margin-bottom: 13px;
+        color: rgb(96, 96, 96);
+    }
+
+    p {
+        margin: 0;
+    }
+
+    .profile-picture {
+        width: 100%;
+        border-radius: 100%;
+        object-fit: cover;
+    }
+
+    .chanelpicture {
+        vertical-align: middle;
+        width: 25px;
+        margin-bottom: 0;
+    }
+</style>
+
+<body>
+
+    <div style="display: grid; grid-template-columns: 250px 250px 250px; align-items: center;">
+        <div class="catdiv1">
+            <div><img src="https://www.cdc.gov/healthy-pets/media/images/2024/04/Cat-on-couch.jpg" class="cat1"></div>
+            <div>
+                <p class="name">Oliver</p>
+
+                <div class="chanelpicture"><img class="profile-picture"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8fDq5uirhA2cVREmhe85XQEFjquQ60Ql09A&s">
+                </div>
+                <p class="friends">2 mutal friends</p>
+            </div>
+            <div><input class="addfriend" type="button" value="Add friends"></div>
+        </div>
+
+        <div class="catdiv1">
+            <div><img
+                    src="https://plus.unsplash.com/premium_photo-1677545182067-26ac518ef64f?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGNhdHN8ZW58MHx8MHx8fDA%3D"
+                    class="cat1"></div>
+            <div>
+                <p class="name">Rex</p>
+                <div class="chanelpicture"><img class="profile-picture"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8fDq5uirhA2cVREmhe85XQEFjquQ60Ql09A&s">
+                </div>
+                <p class="friends">3 mutal friends</p>
+            </div>
+            <div><input class="addfriend" type="button" value="Add friends"></div>
+        </div>
+
+        <div class="catdiv1">
+            <div><img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4H_6PKGoeQ-o0-taWiwS9QdxotcU55BdrqZN7rvLbsjrDHUC922tpE6VoQaFycyXDLPk&usqp=CAU"
+                    class="cat1"></div>
+            <div>
+                <p class="name">Samo</p>
+                <div class="chanelpicture"><img class="profile-picture"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8fDq5uirhA2cVREmhe85XQEFjquQ60Ql09A&s">
+                </div>
+                <p class="friends">3 mutal friends</p>
+            </div>
+            <div><input class="addfriend" type="button" value="Add friends"></div>
+        </div>
+    </div>
+
+</body>
+
+</html>
