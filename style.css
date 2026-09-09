@@ -1,97 +1,80 @@
+* { box-sizing: border-box; }
+
 body {
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    font-family: sans-serif;
-  }
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  color: #17202a;
+  background: #eef2f5;
+  font-family: "Trebuchet MS", sans-serif;
+}
 
-  header {
-    background: #444;
-    padding: 10px;
-    display: flex;
-    gap: 10px;
-  }
+header {
+  background: #17202a;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  color: white;
+}
 
-  header button {
-    padding: 6px 12px;
-    border: none;
-    cursor: pointer;
-    background: #ddd;
-    border-radius: 4px;
-    font-weight: bold;
-  }
+.brand { font-size: 17px; font-weight: bold; margin-right: 8px; white-space: nowrap; }
+#exerciseNav, .header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.header-actions { margin-left: auto; }
 
-  header button:hover {
-    background: #bbb;
-  }
+header button, header select {
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-  header select {
-    padding: 6px 12px;
-    border: none;
-    border-radius: 4px;
-    background: #ddd;
-    font-weight: bold;
-    cursor: pointer;
-  }
+header button { background: #f2c14e; }
+header button:hover { background: #ffd978; }
+header button:disabled { opacity: .45; cursor: not-allowed; }
+header select { background: #f5f7f8; }
+header select:hover { background: white; }
 
-  header select:hover {
-    background: #bbb;
-  }
+#exerciseBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 20px;
+  background: white;
+  border-bottom: 1px solid #d5dce1;
+}
 
-  #main {
-    flex: 1;
-    display: flex;
-    min-height: 0; /* important for flex children to scroll correctly */
-  }
+.eyebrow { color: #61707d; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+h1 { margin: 3px 0 0; font-size: 22px; }
+#saveStatus { color: #61707d; font-size: 13px; }
 
-  /* Editor container */
-  #editor {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-height: 0; /* allow CodeMirror to shrink properly */
-  }
+#main { flex: 1; display: flex; min-height: 0; }
+#editor { flex: 0 0 46%; display: flex; flex-direction: column; min-height: 0; }
+.CodeMirror { flex: 1; font-size: 14px; border-right: 1px solid #cbd3d9; }
+.CodeMirror-scroll { overflow-x: auto !important; overflow-y: auto !important; }
+.CodeMirror pre { white-space: pre !important; }
 
-  .CodeMirror {
-    flex: 1;
-    font-size: 14px;
-    border-right: 2px solid #ccc;
-    /* Do not set overflow manually; CodeMirror handles scrollbars */
-  }
+#right { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+#description { padding: 10px; background: white; border-bottom: 1px solid #d5dce1; overflow: visible; }
+#preview { flex: 1; display: flex; }
+iframe { flex: 1; border: none; background: #f0f0f0; }
 
-  .CodeMirror-scroll {
-    overflow-x: auto !important;
-    overflow-y: auto !important;
-  }
-  
-  /* Ensure CodeMirror lines do not wrap (prevents visual wrapping and forces horizontal scroll) */
-  .CodeMirror pre {
-    white-space: pre !important;
-  }
+dialog { width: min(850px, 90vw); max-height: 85vh; padding: 0; border: 0; border-radius: 6px; box-shadow: 0 18px 60px #0005; }
+dialog::backdrop { background: #17202a99; }
+.dialog-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: #17202a; color: white; }
+.dialog-header h2 { margin: 0; font-size: 18px; }
+.dialog-header button { padding: 6px 12px; border: 0; border-radius: 4px; cursor: pointer; }
+#solutionCode { margin: 0; padding: 18px; overflow: auto; max-height: 70vh; background: #f7f8f9; font: 13px/1.5 Consolas, monospace; }
 
-  /* Right side: description + preview */
-  #right {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-  }
-
-  #description {
-    padding: 10px;
-    background: #f5f5f5;
-    border-bottom: 2px solid #ccc;
-    overflow: visible; /* dynamic height based on content */
-  }
-
-  #preview {
-    flex: 1; /* remaining space */
-    display: flex;
-  }
-
-  iframe {
-    flex: 1;
-    border: none;
-    background: #f0f0f0;
-  }
+@media (max-width: 800px) {
+  body { height: auto; min-height: 100vh; }
+  #main { flex-direction: column; min-height: 900px; }
+  #editor { flex: 0 0 430px; }
+  #right { min-height: 560px; }
+  .header-actions { margin-left: 0; }
+  #exerciseBar { align-items: flex-start; flex-direction: column; }
+}

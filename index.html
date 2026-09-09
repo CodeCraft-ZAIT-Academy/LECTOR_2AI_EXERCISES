@@ -2,164 +2,51 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>HTML Exercises with Editor, Description & Preview</title>
+  <title>HTML Exercises</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/eclipse.min.css" />
 </head>
 <body>
   <header>
-    <select id="tables" onchange="loadExercise(this.value, this)">
-      <option value="">Tables</option>
-      <option value="tables_e1">TABLE - E1</option>
-    </select>
-
-    <select id="style" onchange="loadExercise(this.value, this)">
-      <option value="">Styling</option>
-      <option value="styling_e1">Styling - E1</option>
-    </select>
-    
-    <select id="containers" onchange="loadExercise(this.value, this)">
-      <option value="">Containers</option>
-      <option value="containers_e1">DIV - E1</option>
-      <option value="containers_e2">DIV - E2</option>
-      <option value="containers_e3">DIV - E3</option>
-      <option value="containers_e4">DIV - E4</option>
-    </select>
-
-    <select id="grid" onchange="loadExercise(this.value, this)">
-      <option value="">Grid</option>
-      <option value="grid_e1">GRID - E1</option>
-      <option value="grid_e2">GRID - E2</option>
-      <option value="grid_e3">GRID - E3</option>
-    </select>
-
-    <select id="flexbox" onchange="loadExercise(this.value, this)">
-      <option value="">Flexbox</option>
-      <option value="flexbox_e1">FLEXBOX - E1</option>
-      <option value="flexbox_e2">FLEXBOX - E2</option>
-      <option value="flexbox_e3">FLEXBOX - E3</option>
-    </select>
-
-    <select id="position" onchange="loadExercise(this.value, this)">
-      <option value="">Position</option>
-      <option value="position_e1">POSITION - E1</option>
-      <option value="position_e2">POSITION - E2</option>
-    </select>
-
-    <button id="solutionBtn" onclick="showSolution()">Show Solution</button>
+    <div class="brand">HTML exercises</div>
+    <nav id="exerciseNav" aria-label="Exercise categories"></nav>
+    <div class="header-actions">
+      <button id="resetBtn" type="button">Reset</button>
+      <button id="solutionBtn" type="button" disabled>View solution</button>
+    </div>
   </header>
 
-  <div id="main">
+  <div id="exerciseBar">
+    <div>
+      <span class="eyebrow">Current exercise</span>
+      <h1 id="exerciseTitle">Choose an exercise</h1>
+    </div>
+    <span id="saveStatus" role="status">Nothing loaded</span>
+  </div>
+
+  <main id="main">
     <div id="editor"></div>
     <div id="right">
       <div id="description"></div>
-      <div id="preview">
-        <iframe id="output"></iframe>
-      </div>
+      <div id="preview"><iframe id="output" title="Exercise preview"></iframe></div>
     </div>
-  </div>
+  </main>
 
-  <!-- CodeMirror core & modes -->
+  <dialog id="solutionDialog">
+    <div class="dialog-header">
+      <h2>Solution</h2>
+      <button id="closeSolutionBtn" type="button">Close</button>
+    </div>
+    <pre id="solutionCode"><code></code></pre>
+  </dialog>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
-
-  <script>
-    let editor;
-    let currentExerciseId = null;
-    const outputFrame = document.getElementById('output');
-    const descriptionDiv = document.getElementById('description');
-
-    function setupEditor(initial) {
-      editor = CodeMirror(document.getElementById('editor'), {
-        value: initial ?? '',
-        mode: "htmlmixed",
-        theme: "eclipse",
-        lineNumbers: true,
-        lineWrapping: false
-      });
-      editor.on("change", updatePreview);
-      updatePreview();
-    }
-
-    async function loadExercise(id, selectElement) {
-      if (!id) return; // nothing selected
-      try {
-        currentExerciseId = id; // remember which exercise is active
-        const codeFile = "exercises/default.html"; // default template (override if needed)
-
-        // fetch starter code
-        const codeResponse = await fetch(codeFile);
-        if (!codeResponse.ok) throw new Error("Failed to load starter code");
-        const code = await codeResponse.text();
-
-        // fetch description (per-exercise)
-        const descResponse = await fetch(`exercises/${id}.desc.html`);
-        if (!descResponse.ok) throw new Error("Failed to load description");
-        const description = await descResponse.text();
-
-        // update editor + preview
-        editor.setValue(code);
-        descriptionDiv.innerHTML = description;
-        updatePreview();
-
-        // reset all selects except the one that triggered this call
-        document.querySelectorAll('select').forEach(sel => {
-          if (sel !== selectElement) sel.selectedIndex = 0;
-        });
-
-        // check if solution exists and enable/disable button
-        const solutionButton = document.querySelector('button#solutionBtn');
-        try {
-          const solResponse = await fetch(`exercises/${id}.sol.html`, { method: 'HEAD' });
-          solutionButton.disabled = !solResponse.ok; // enable if exists, disable otherwise
-        } catch {
-          solutionButton.disabled = true; // disable if any error occurs
-        }
-
-      } catch (err) {
-        alert("Error loading exercise: " + err.message);
-      }
-    }
-
-    function updatePreview() {
-      const code = editor.getValue();
-      const doc = outputFrame.contentDocument || outputFrame.contentWindow.document;
-      doc.open();
-      doc.write(code);
-      doc.close();
-    }
-
-    function showSolution() {
-      if (!currentExerciseId) {
-        alert("No exercise loaded yet");
-        return;
-      }
-      const filePath = `exercises/${currentExerciseId}.sol.html`;
-      fetch(filePath)
-        .then(response => {
-          if (!response.ok) throw new Error("Failed to load solution");
-          return response.text();
-        })
-        .then(solutionCode => {
-          editor.setValue(solutionCode);
-          updatePreview();
-        })
-        .catch(error => {
-          alert("Error loading solution: " + error.message);
-        });
-    }
-
-    // init: create editor first, then load the chosen exercise
-    (function init() {
-      // create editor with empty content so editor exists before loadExercise runs
-      setupEditor('');
-      // load initial exercise (this will fetch template + description and set editor content)
-      loadExercise("tables_e1");
-    })();
-  </script>
+  <script src="exercises/manifest.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
